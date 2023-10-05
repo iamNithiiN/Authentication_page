@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>User Registration and Login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Register</h2>
+            <form id="register-form">
+                <input type="text" id="register-username" placeholder="Username" required>
+                <input type="password" id="register-password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        <div class="form-container">
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Username" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <p id="error-message" class="error-message"></p>
+    </div>
+
+    <script>
+        const registerForm = document.getElementById('register-form');
+const loginForm = document.getElementById('login-form');
+const errorMessage = document.getElementById('error-message');
+
+const users = {}; // Store registered users
+
+registerForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const username = document.getElementById('register-username').value;
+    const password = document.getElementById('register-password').value;
+
+    if (users[username]) {
+        errorMessage.textContent = 'Username already registered.';
+    } else {
+        const hashedPassword = hashPassword(password);
+        users[username] = hashedPassword;
+        errorMessage.textContent = 'Registration successful!';
+    }
+});
+
+loginForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+
+    if (users[username] && comparePasswords(password, users[username])) {
+        errorMessage.textContent = 'Login successful!';
+    } else {
+        errorMessage.textContent = 'Incorrect login credentials.';
+    }
+});
+
+// Simulate password hashing (not recommended in a real application)
+function hashPassword(password) {
+    return password; // Insecure, should use a proper hashing library (e.g., bcrypt)
+}
+
+// Simulate password comparison (not recommended in a real application)
+function comparePasswords(inputPassword, storedPassword) {
+    return inputPassword === storedPassword;
+}
+
+    </script>
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.form-container {
+    margin-bottom: 20px;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+    </style>
+</body>
+</html>
